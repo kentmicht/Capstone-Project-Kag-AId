@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Kag-Aid</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="icon" href="images/kag_aid_logo.png" type="image/gif" sizes="16x16">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div class='login-box' id="login-div">
+		<h1>Login</h1>
+		<div class="textbox">
+			<i class="fa fa-user"></i>
+			<input type="email" placeholder="E-mail" id="email_field">
+		</div>
+		<div class="textbox">
+			<i class="fa fa-key"></i>
+			<input type="password" placeholder="Password" id="password_field">
+		</div>
+		<input class="btn logIn-btn" type="button" name="" value="Sign In" onclick="login()">
+	</div>	
+
+	<div class="user-box" id="user-div">
+		<div>
+			<p>Successfully logged in.</p>
+			<p id="logged_in_email"></p>
+			<button onClick="logout()">Log Out</button>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8">
+				<div class="usersTable-div">
+					<table class="table table-hover" id="usersList">
+						<thead>
+							<tr>
+								<th>User ID</th>
+								<th>Username</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>Options</th>
+							</tr>
+						</thead>
+						<tbody id="usersList-body">
+							
+						</tbody>
+					</table>
+				</div>	
+			</div>
+			<div class="col-md-4">
+				<div class="row">
+					<div class="col-md-2"></div>
+					<div class="col-md-8">
+						<button class="btn btn-default" data-toggle='modal' data-target='#addUser-modal'><img class="addUser-img" src="images/add-user.png"><p>Add User</p></button>
+					</div>
+					<div class="col-md-2"></div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- EDIT USER MODAL -->
+		<div class="modal fade" id="editUser-modal" role="dialog">
+		    <div class="modal-dialog">
+		    
+		      <!-- Modal content-->
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title">Edit User</h4>
+		        </div>
+		        <div class="modal-body">
+		         	
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        </div>
+		      </div>
+		      
+		    </div>
+		</div>
+
+		<!-- DELETE USER MODAL -->
+		<div class="modal fade" id="delUser-modal" role="dialog">
+		    <div class="modal-dialog">
+		    
+		      <!-- Modal content-->
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title">Modal Header</h4>
+		        </div>
+		        <div class="modal-body">
+		          <p>Some text in the modal.</p>
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        </div>
+		      </div>
+		      
+		    </div>
+		</div>
+
+		<!-- ADD USER MODAL -->
+		<div class="modal fade" id="addUser-modal" role="dialog">
+		    <div class="modal-dialog">
+		    
+		      <!-- Modal content-->
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title"><span class="glyphicon glyphicon-plus-sign"></span> Add User</h4>
+		        </div>
+		        <div class="modal-body">
+		          
+		        </div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        </div>
+		      </div>
+		      
+		    </div>
+		</div>
+
+	</div>
+</body>
+</html>
+
+<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var database;
+  var config = {
+    apiKey: "AIzaSyA_Sf92mWSGreFZEr-I4LAD_y8f_J3CdaE",
+    authDomain: "kag-aid2018.firebaseapp.com",
+    databaseURL: "https://kag-aid2018.firebaseio.com",
+    projectId: "kag-aid2018",
+    storageBucket: "kag-aid2018.appspot.com",
+    messagingSenderId: "668988213456"
+  };
+  firebase.initializeApp(config);
+  database = firebase.database();
+
+  var refUsers = database.ref('users');
+  refUsers.on('value', getData, errData);
+
+  function getData(data){
+  	//console.log(data.val());
+  	var users = data.val();
+  	var userKeys = Object.keys(users);
+  	console.log(userKeys);
+  	for(var i = 0; i < userKeys.length; i++){
+  		var k = userKeys[i];
+  		var firstname = users[k].firstname;
+  		var lastname = users[k].lastname;
+  		var uID = users[k].uId;
+  		var username = users[k].username;
+
+  		//console.log(uID, username, firstname, lastname);
+
+  		addTableRow(uID, username, firstname, lastname);
+  	}
+  }
+
+  function addTableRow(uID, username, firstname, lastname) {
+  	var cell, tableRow, tableRef, cellCtr=0, rowCtr=0;
+  	tableRef = document.getElementById("usersList");
+	tableRow = tableRef.insertRow(rowCtr);
+	
+	//user ID
+	cell = tableRow.insertCell(cellCtr);
+	cell.innerHTML = uID;
+	cellCtr++;
+	//username
+	cell = tableRow.insertCell(cellCtr);
+	cell.innerHTML = username;
+	cellCtr++;
+	//firstname
+	cell = tableRow.insertCell(cellCtr);
+	cell.innerHTML = firstname;
+	cellCtr++;
+	//lastname
+	cell = tableRow.insertCell(cellCtr);
+	cell.innerHTML = lastname;
+	cellCtr++;
+	//options
+	cell = tableRow.insertCell(cellCtr);
+	cell.innerHTML = "<div class='btn-group' role='group'>" +
+  						"<button type='button' class='btn btn-warning' data-toggle='modal' data-target='#editUser-modal'><span class='glyphicon glyphicon-edit'></span></button>" +
+  						"<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#delUser-modal'><span class='glyphicon glyphicon-trash'></span></button>" +
+					"</div>";
+	cellCtr++
+
+	document.getElementById("usersList-body").appendChild(tableRow);
+  }
+
+  function errData(err){
+  	console.log('Error!');
+  	console.log(err);
+  }
+
+</script>	
+
+<script src="index.js"></script>
