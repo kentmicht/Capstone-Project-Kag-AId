@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title>Kag-Aid Patient Records</title>
+
+		<!-- CSS -->
+	        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+	        <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+	        <link rel="stylesheet" href="../assets/font-awesome/css/font-awesome.min.css">
+			<link rel="stylesheet" href="../assets/css/form-elements.css">
+	        <!-- <link rel="stylesheet" href="../assets/css/style.css"> -->
+	        <link rel="stylesheet" href="../assets/css/patientModulesCSS.css">
+	        <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo1.png" />
+
+	</head>
+
+	<body>
+		<div class="row">
+			<div class="patient col-md-2">
+				 <div class="form-top-center text-center">
+                    
+                    <div class="kagaid form-top-center text-center">
+                    	<img src="../assets/img/kag_aid_logo_wbackground.png" id="logoPic">
+                        <h3><b>Kag-Aid</b></h3>
+                        <h4>A Skin Illness Identification and Patient Monitoring System</h4>
+                    </div>
+
+                    <ul class="nav nav-pills nav-stacked">
+						<li class="menuLogoText"><a href="ViewPatientRecords.html">
+							<img src="../assets/img/patients_logo.png" id="menuLogos">
+							</br><p>Patient Records</p>
+						</a></li>
+
+						<li class="menuLogoText"><a href="#">
+							<img src="../assets/img/skin_illness_and_treatments_logo.png" id="menuLogos">
+							</br><p>Skin Illness and Treatments</p>
+						</a></li>
+
+						<li class="menuLogoText"><a href="#">
+							<img src="../assets/img/logs_logo.png" id="menuLogos">
+							</br><p>Logs</p>
+						</a></li>
+					</ul>
+
+                 </div>
+			</div>
+
+			<div class="col-md-10">
+				<div class="datetime">
+					<h5>Date: August 22, 2018</h5>
+					<h5>Time: 2:21 PM</h5>
+				</div>
+
+				<div class="addPatientRecords">
+					
+					<h3>Add Patient Records</h3>
+
+					<hr>
+					<h4>Personal Information</h4>
+					<div class="personalInfo">
+						<!-- NAME -->
+						<div class="row">
+							<div class="col-md-4">
+								<h5>Lastname</h5>
+								<input type="text" name="" value="dela Cruz"> ,
+							</div>
+							<div class="col-md-4">
+								<h5>Firstname</h5>
+								<input type="text" name="" value="Juan">
+							</div>
+							<div class="col-md-4">
+								<h5>Middlename</h5>
+								<input type="text" name="" value="Potacio">
+							</div>
+						</div>
+
+						<!-- OTHER -->
+						<div class="row">
+							<div class="col-md-4">
+								<h5>Birthdate</h5>
+								<input type="date" name="" class="pbday" >
+							</div>
+							<div class="col-md-4">
+								<h5>Age</h5>
+								<input type="text" name="" value="25">
+							</div>
+							<div class="col-md-4">
+								<h5>Gender</h5>
+								<input type="text" name="" value="Male">
+							</div>
+						</div>
+
+					</div>
+
+					<br>
+					<h4>Location</h4>
+					<div class="location">
+						<!-- NAME -->
+						<div class="row">
+							<div class="col-md-3">
+								<h5>Street</h5>
+								<input type="text" name="" value="Rizal"> 
+							</div>
+							<div class="col-md-3">
+								<h5>Barangay</h5>
+								<input type="text" name="" value="Poblacion">
+							</div>
+							<div class="col-md-3">
+								<h5>Block Number</h5>
+								<input type="text" name="" value="3">
+							</div>
+							<div class="col-md-3">
+								<h5>Lot Number</h5>
+								<input type="text" name="" value="27">
+							</div>
+						</div>
+
+						<h5>City</h5>
+						<input type="text" name="" value="Dalaguete, Cebu" class="form-control">
+					</div>
+
+					<br>
+					<div style="float:right;">
+						<a href="ViewPatientRecords.html"><button type="submit" class="btn btn-primary" style="background-color:#c9c9c8">Discard</button></a>
+						<button type="submit" class="btn btn-primary">Save Changes</button>
+					</div>
+
+	 			</div>
+			
+			</div>
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<title>Kag-Aid Patient Records</title>
+
+		<!-- CSS -->
+	        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+	        <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+	        <link rel="stylesheet" href="../assets/font-awesome/css/font-awesome.min.css">
+			<link rel="stylesheet" href="../assets/css/form-elements.css">
+	        <!-- <link rel="stylesheet" href="../assets/css/style.css"> -->
+	        <link rel="stylesheet" href="../assets/css/patientModulesCSS.css">
+	        <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo1.png" />
+
+	</head>
+
+	<body>
+		<div class="row">
+			<div class="patient col-md-2">
+				 <div class="form-top-center text-center">
+                    
+                    <div class="kagaid form-top-center text-center">
+                    	<img src="../assets/img/kag_aid_logo_wbackground.png" id="logoPic">
+                        <h3><b>Kag-Aid</b></h3>
+                        <h4>A Skin Illness Identification and Patient Monitoring System</h4>
+                    </div>
+
+                    <ul class="nav nav-pills nav-stacked">
+						<li class="menuLogoText"><a href="ViewPatientRecords.html">
+							<img src="../assets/img/patients_logo.png" id="menuLogos">
+							</br><p>Patient Records</p>
+						</a></li>
+
+						<li class="menuLogoText"><a href="#">
+							<img src="../assets/img/skin_illness_and_treatments_logo.png" id="menuLogos">
+							</br><p>Skin Illness and Treatments</p>
+						</a></li>
+
+						<li class="menuLogoText"><a href="#">
+							<img src="../assets/img/logs_logo.png" id="menuLogos">
+							</br><p>Logs</p>
+						</a></li>
+					</ul>
+
+                 </div>
+			</div>
+
+			<div class="col-md-10">
+				<div class="datetime">
+					<h5 id="currentDate"></h5>
+					<h5 id="currentTime"></h5>
+				</div>
+
+				<div class="patientRecords">
+					<h3>Patient Records</h3>
+
+					<br>
+						<select class="form-control" id="searchBy">
+							<option selected="selected" disabled="disabled">Search By...</option>
+					    	<option value="Fullname">Fullname</option>
+					    	<option value="Address">Address</option>
+					    	<option value="Birthday">Birthday</option>
+					    	<option value="Gender">Gender</option>
+					  	</select>
+						<input type="text" placeholder="Search.." class="textsearch" id="searchData">
+						<!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+					<a href="AddPatientRecord.html""><button type="submit" class="addpatient btn btn-primary">Add Patient</button></a>
+
+					<br><br>
+					<div class="patienttable">
+						<table class="table table-striped" id="patientList">
+							<thead>
+								<th>Patient ID</th>
+								<!-- <th>Age</th> -->
+								<th>Fullname</th>
+								<th>Address</th>
+								<th>Birthday</th>
+								<th>Gender</th>
+								<th>Last Scan</th>
+								<th>Setting</th>
+							</thead>
+							<tbody id="patientList-body">
+							
+							</tbody>
+						</table>
+					</div>
+	 			</div>
+			</div>
+		</div>
+
+		<!-- CONNECTION TO FIREBASE -->
+		<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+		<script src='../assets/bootstrap/js/jquery.min.js'></script>
+		<script src='../assets/js/moment.js'></script>
+		<!-- <script src='../assets/datatable_files/datatables.min.js'></script> -->
+		<script>
+		   // Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyA_Sf92mWSGreFZEr-I4LAD_y8f_J3CdaE",
+				authDomain: "kag-aid2018.firebaseapp.com",
+				databaseURL: "https://kag-aid2018.firebaseio.com",
+				projectId: "kag-aid2018",
+				storageBucket: "kag-aid2018.appspot.com",
+				messagingSenderId: "668988213456"
+			};
+			firebase.initializeApp(config);
+			database = firebase.database();
+
+			var refPersonInfo = database.ref('person_information');
+			refPersonInfo.on('value', getData, errData);
+
+			function getData(data){
+			  	//console.log(data.val());
+			  	var pInfo = data.val();
+			  	var pInfoKeys = Object.keys(pInfo);
+			  	console.log(pInfoKeys);
+			  	for(var i = 0; i < pInfoKeys.length; i++){
+			  		var k = pInfoKeys[i];
+			  		var pid = pInfo[k].pid;
+			  		var fullname = pInfo[k].fullname;
+			  		var address = pInfo[k].address;
+			  		var birthday = pInfo[k].birthday;
+			  		var gender = pInfo[k].gender;
+			  		var lastscan = pInfo[k].lastscan;
+
+			  		//console.log(address, birthday, pid, fullname);
+
+			  		addTableRow(pid, fullname, address, birthday, gender, lastscan);
+			  	}
+			}
+
+			 function addTableRow(pid, fullname, address, birthday, gender, lastscan) {
+			  	var cell, tableRow, tableRef, cellCtr=0, rowCtr=0;
+			  	tableRef = document.getElementById("patientList");
+				tableRow = tableRef.insertRow(rowCtr);
+				
+				//patient ID
+				cell = tableRow.insertCell(cellCtr);
+				cell.innerHTML = pid;
+				cellCtr++;
+				//fullname
+				cell = tableRow.insertCell(cellCtr);
+				cell.innerHTML = fullname;
+				cellCtr++;
+				//address
+				cell = tableRow.insertCell(cellCtr);
+				cell.innerHTML = address;
+				cellCtr++;
+				//birthday
+				cell = tableRow.insertCell(cellCtr);
+				cell.innerHTML = birthday;
+				cellCtr++;
+				//gender
+				cell = tableRow.insertCell(cellCtr);
+				cell.innerHTML = gender;
+				cellCtr++;
+				//lastscan
+				cell = tableRow.insertCell(cellCtr);
+				cell.innerHTML = lastscan;
+				cellCtr++;
+				//settings
+				cell = tableRow.insertCell(cellCtr);
+				cell.innerHTML = "<div class='btn-group' role='group'>" +
+			  						"<button id='settingsBtn'>edit</button>" +
+			  						"<button id='settingsBtn'>delete</button>" +
+								"</div>";
+				cellCtr++
+
+				document.getElementById("patientList-body").appendChild(tableRow);
+			  }
+
+			  function errData(err){
+			  	console.log('Error!');
+			  	console.log(err);
+			  }
+
+			//SEARCH FUNCTION
+			$(document).ready(function(){
+				//DISPLAY DATE
+				var monthNames =["January","February","March","April","May","June","July","August","September","October","November","December"];
+				var date = new Date();
+				var month = date.getMonth();
+				var day = date.getDate();
+				var year = date.getFullYear();
+				var time = date.getTime();
+				var currentDate = "DATE: " + monthNames[month] + " " + day + ", " + year;
+
+				document.getElementById("currentDate").innerHTML = currentDate;
+				
+
+				//DISPLAY TIME (install or include moment.js before using it)
+				var interval = setInterval(function() {
+			        var momentNow = moment();
+			        $('#currentTime').html("TIME: " + momentNow.format('hh:mm:ss A'));
+		   		}, 100);
+
+				var searchCategory;
+
+				$("#searchBy").click(function(){
+					searchCategory = $("#searchBy").val();
+				});
+
+				$("#searchData").keyup(function(){
+					var input, filter, table, tr, td, i;
+				 	input = document.getElementById("searchData");
+				  	filter = input.value.toUpperCase();
+				  	table = document.getElementById("patientList");
+				  	tr = table.getElementsByTagName("tr");
+
+				  	for (i = 0; i < tr.length; i++) {
+
+				  		if(searchCategory == "Fullname"){
+				  			td = tr[i].getElementsByTagName("td")[1];
+				  		}else if(searchCategory == "Address"){
+				  			td = tr[i].getElementsByTagName("td")[2];
+				  		}else if(searchCategory == "Birthday"){
+				  			td = tr[i].getElementsByTagName("td")[3];
+				  		}else if(searchCategory == "Gender"){
+				  			td = tr[i].getElementsByTagName("td")[4];
+				  		}
+				    	
+				    	if (td) {
+				      		if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+				        		tr[i].style.display = "";
+				      		} else {
+				        		tr[i].style.display = "none";
+				      		}
+				    	}       
+				  	}
+				});
+			});
+
+		</script>
+
+	</body>
+
+</html>
