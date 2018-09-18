@@ -8,7 +8,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     var user = firebase.auth().currentUser;
     if (user != null){
     	var email_id = user.email;
-    	document.getElementById("logged_in_email").innerHTML = "Welcome " + email_id ;
+    	document.getElementById("logged_in_email").innerHTML = email_id ;
     }
 
   } else {
@@ -35,8 +35,6 @@ function login(){
 	  // ...
 	});
 }
-
-//This function adds a user (a medical practitioner). It accepts 
 
 function logout(){
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Kag-Aid</title>
+	<title>Kag-Aid: SuperAdmin</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<link rel="icon" href="images/kag_aid_logo.png" type="image/gif" sizes="16x16">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
@@ -10,6 +10,7 @@
 
 </head>
 <body>
+	<!-- LOG IN DIV -->
 	<div class='login-box' id="login-div">
 		<h1>Login</h1>
 		<div class="textbox">
@@ -22,17 +23,46 @@
 		</div>
 		<input class="btn logIn-btn" type="button" name="" value="Sign In" onclick="login()">
 	</div>	
+	<!-- END OF LOG IN DIV -->
 
+	<!-- ADMIN DIV -->
 	<div class="user-box" id="user-div">
-		<div>
-			<p>Successfully logged in.</p>
-			<p id="logged_in_email"></p>
-			<button onClick="logout()">Log Out</button>
+		<div class="adminheader-div">
+			<div class="row">
+				<div class="col col-md-6">
+					<p class="adminheader-welcome-text">Welcome back to Kag-Aid,</p>
+					<p id="logged_in_email" class="adminheader-email-text"></p>
+					<input class="adminheader-logout-icon" type="image" src="images/logout.png" onclick="logout()" title="Sign Out">
+				</div>
+				<div class="col col-md-6 adminheader-col2-div">
+					<img class="adminheader-img" src="images/header-logo.png">
+				</div>
+			</div>
+			
+		</div>
+
+		<div class="row statistics-div">
+			<div class="col col-md-4">
+				<img class=" user-icon-img" src="images/users-icon.png">
+				<p class="count user-count-text" id="user-count"></p>
+				<p class="user-text">health med users</p>
+			</div>
+			<div class="col col-md-4">
+				<img class="disease-icon-img" src="images/disease-icon.png">
+				<p class="count disease-count-text" id="disease-count"></p>
+				<p class="disease-text">skin illness</p>
+			</div>
+			<div class="col col-md-4">
+				<img class="treatments-icon-img" src="images/treatments-icon.png">
+				<p class="count treatments-count-text" id="treatments-count"></p>
+				<p class="treatments-text">OTC treatments</p>
+			</div>
 		</div>
 
 		<div class="row">
 			<div class="col-md-8">
 				<div class="usersTable-div">
+					
 					<table class="table table-hover" id="usersList">
 						<thead>
 							<tr>
@@ -53,7 +83,7 @@
 				<div class="row">
 					<div class="col-md-2"></div>
 					<div class="col-md-8">
-						<button class="btn btn-default" data-toggle='modal' data-target='#addUser-modal'><img class="addUser-img" src="images/add-user.png"><p>Add User</p></button>
+						<button class="btn btn-default" id="addUser-modalBtn" data-toggle='modal' onclick="getUID()" data-target='#addUser-modal'><img class="addUser-img" src="images/add-user.png"><p>Add User</p></button>
 					</div>
 					<div class="col-md-2"></div>
 				</div>
@@ -68,18 +98,59 @@
 		      <div class="modal-content">
 		        <div class="modal-header">
 		          <button type="button" class="close" data-dismiss="modal">&times;</button>
-		          <h4 class="modal-title">Edit User</h4>
+		          <h4 class="modal-title"><span><img class="modal-icon" src="images/edit-icon.png"></span> Edit User</h4>
 		        </div>
 		        <div class="modal-body">
-		         	
+		        	<div class="row">
+		        		<div class="col-md-2"></div>
+		        		<div class="col col-md-4">
+			          		<div class="pull-left">
+			          			<p name="editU-uID" id="userUID-input" class="addU-uID-input text-center"></p>
+			          		</div>
+			          		<br><br>
+			          		<label for="editU-firstname">First Name</label>
+							<div class="input-group">
+							  <input type="text" class="form-control" id="editU-firstname">
+							</div>
+							<br>
+							<label for="editU-username">Last Name</label>
+							<div class="input-group">
+							  <input type="text" class="form-control" id="editU-lastname">
+							</div>
+			          	</div>
+		         		<div class="col col-md-4">
+			          		<div class="pull-right">
+			          			<p name="editU-uID" id="childID-input" class="addU-cID-input text-center"></p>
+			          		</div>
+			          		<br><br>
+			          		<label for="editU-firstname">Username</label>
+							<div class="input-group">
+							  <input type="text" class="form-control" id="editU-username">
+							</div>
+							<br>
+							<label for="editU-username">Password</label>
+							<div class="input-group">
+							  <input type="password" class="form-control" id="editU-password">
+							</div>
+			          	</div>
+			          	<div class="col-md-2"></div>	
+		        	</div>
 		        </div>
 		        <div class="modal-footer">
-		          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        	<div class="row">
+		        		<div class="col col-md-8"></div>
+		        		<div class="col col-md-2">
+		        				<button title="Submit" class="btn pull-right" id="editUser-btn" onclick="editUser()" data-dismiss="modal" style="background-color:#008c98;color:#f3f3f3">Submit</button>		
+		        		</div>
+		        		<div class="col col-md-2">
+		        				<button title="Cancel" type="button" class="btn" data-dismiss="modal" style="background-color:#f3f3f3;color:#008c98">Cancel</button>		
+		        		</div>
+		        	</div>
 		        </div>
 		      </div>
-		      
 		    </div>
 		</div>
+		<!-- END OF EDIT USER MODAL -->
 
 		<!-- DELETE USER MODAL -->
 		<div class="modal fade" id="delUser-modal" role="dialog">
@@ -89,7 +160,7 @@
 		      <div class="modal-content">
 		        <div class="modal-header">
 		          <button type="button" class="close" data-dismiss="modal">&times;</button>
-		          <h4 class="modal-title">Modal Header</h4>
+		          <h4 class="modal-title"><span><img class="modal-icon" src="images/delete-icon.png"></span>  Delete User</h4>
 		        </div>
 		        <div class="modal-body">
 		          <p>Some text in the modal.</p>
@@ -101,19 +172,53 @@
 		      
 		    </div>
 		</div>
+		<!-- END OF DELETE USER MODAL -->
+
 
 		<!-- ADD USER MODAL -->
-		<div class="modal fade" id="addUser-modal" role="dialog">
+		<div class="modal fade" id="addUser-modal" role="dialog" onshow="getUID()">
 		    <div class="modal-dialog">
 		    
 		      <!-- Modal content-->
 		      <div class="modal-content">
 		        <div class="modal-header">
 		          <button type="button" class="close" data-dismiss="modal">&times;</button>
-		          <h4 class="modal-title"><span class="glyphicon glyphicon-plus-sign"></span> Add User</h4>
+		          <h4 class="modal-title"><span><img class="modal-icon" src="images/add-icon.png"></span>  Add User</h4>
 		        </div>
 		        <div class="modal-body">
-		          
+		          <div class="row">
+		          	<div class="col col-md-2"></div>
+		          	<div class="col col-md-4">
+		          		<div class="pull-left">
+		          			<p name="addU-uID" id="recentUID-input" class="addU-uID-input text-center"></p>
+		          		</div>
+		          		<br><br>
+		          		<label for="addU-firstname">First Name</label>
+						<div class="input-group">
+						  <input type="text" class="form-control" id="addU-firstname">
+						</div>
+						<br>
+						<label for="addU-username">Username</label>
+						<div class="input-group">
+						  <input type="text" class="form-control" id="addU-username">
+						</div>
+		          	</div>
+		          	<div class="col col-md-4">
+		          		<br><br>
+		          		<label for="addU-lastname">Last Name</label>
+						<div class="input-group">
+						  <input type="text" class="form-control" id="addU-lastname">
+						</div>
+						<br>
+						<label for="addU-password">Password</label>
+						<div class="input-group">
+						  <input type="password" class="form-control" id="addU-password">
+						</div>
+						<br>
+						<button class="btn pull-right" id="addUser-btn" onclick="addUser()" data-dismiss="modal" style="background-color:#008c98;color:#f3f3f3">Submit</button>
+					</div>
+		          	<div class="col col-md-2"></div>
+		          </div>
 		        </div>
 		        <div class="modal-footer">
 		          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -122,13 +227,15 @@
 		      
 		    </div>
 		</div>
-
+		<!-- END OF ADD USER MODAL -->
 	</div>
+	<!-- END OF ADMIN DIV -->
 </body>
-</html>
 
 <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+
 <script>
+
   // Initialize Firebase
   var database;
   var config = {
@@ -143,12 +250,30 @@
   database = firebase.database();
 
   var refUsers = database.ref('users');
-  refUsers.on('value', getData, errData);
+  var refDisease = database.ref('skin_illnesses');
+  var refOTC = database.ref('otc_treatments');
 
+  refUsers.on('value', getData, errData);
+  refUsers.on('value', getUserStats);
+  refDisease.on('value', getDiseaseStats);
+  refOTC.on('value',getOTCStats);
+
+  var UID, currentUID=0;
+  //var md5 = require('md5');
+
+  //This function gets all the users from the database and displays it in table form.
   function getData(data){
+
+  	var userlistings = document.getElementById("usersList-body").rows.length;
+  	for (var i = 0; i < userlistings; i++) {
+  		userlistings[i].remove();
+  	}
+
   	//console.log(data.val());
   	var users = data.val();
   	var userKeys = Object.keys(users);
+  	var recentUID = parseInt(userKeys.length, 10) + 1;
+  	console.log(recentUID);
   	console.log(userKeys);
   	for(var i = 0; i < userKeys.length; i++){
   		var k = userKeys[i];
@@ -160,16 +285,164 @@
   		//console.log(uID, username, firstname, lastname);
 
   		addTableRow(uID, username, firstname, lastname);
+
   	}
+
+  	UID = recentUID;
+
   }
 
-  function addTableRow(uID, username, firstname, lastname) {
-  	var cell, tableRow, tableRef, cellCtr=0, rowCtr=0;
-  	tableRef = document.getElementById("usersList");
-	tableRow = tableRef.insertRow(rowCtr);
+// These function will the number of users, otc treatments and skin illnesses
+// and display it in the statistics div.
+function getUserStats(data) {
+	var usersCtr=0;
+	var users = data.val();
+	var userKeys = Object.keys(users);
+	for(var i = 0; i < userKeys.length; i++){
+		usersCtr++;
+	}
+
+	console.log(usersCtr);
+	document.getElementById("user-count").innerHTML = usersCtr;
+}
+
+function getDiseaseStats(data) {
+	var illnessCtr=0;
+	var illnesses = data.val();
+	var dKeys = Object.keys(illnesses);
+	for(var i = 0; i < dKeys.length; i++){
+		illnessCtr++;
+	}
+
+	console.log(illnessCtr);
+	document.getElementById("disease-count").innerHTML = illnessCtr;
+}
+
+function getOTCStats(data) {
+	var otcCtr=0;
+	var treatments = data.val();
+	var treatmentKeys = Object.keys(treatments);
+	for(var i = 0; i < treatmentKeys.length; i++){
+		otcCtr++;
+	}
+
+	console.log(otcCtr);
+	document.getElementById("treatments-count").innerHTML = otcCtr;
+}
+
+
+  // This function will add the user into the database.
+  function addUser(){
+  
+    var lname = document.getElementById("addU-lastname").value.toString();
+    var fname = document.getElementById("addU-firstname").value.toString();
+    var uname = document.getElementById("addU-username").value.toString();
+    var pass = document.getElementById("addU-password").value.toString();
+    var recentUID = String(getUID());
+
+    console.log(lname +", "+ fname +", "+ uname +", "+ pass );
+
+    var firebaseRef = refUsers.push();
+
+    var result = firebaseRef.set({
+      firstname : fname,
+      lastname : lname,
+      password : pass,
+      uId : recentUID,
+      username : uname
+    });
+
+    if (result != null) {
+    	if(!alert('Na-add girl!')){window.location.reload();}
+    }else{
+    	alert("User not added!");
+    }
+    	
+
+
+}
+
+// This function gets the recent ID and returns it to the 
+// calling function. 
+function getUID(){
+	//console.log(UID);
+	document.getElementById("recentUID-input").innerHTML = UID.toString();
+	return UID;
+}
+
+// This function sets the current data then displays in in the modal for editing.
+function getCurrentData(element){
+	//console.log(element.closest('tr').rowIndex);
+	var tbl = document.getElementById("usersList");
+	var row = element.closest('tr').rowIndex;
+	//console.log(tbl.rows[row].cells[0].innerHTML);
+	var userID = tbl.rows[row].cells[0].innerHTML;
+	document.getElementById("userUID-input").innerHTML = userID.toString();
+	currentUID = userID;
+	setDetails();
+
+}
+
+// This function gets a specific user data from the database then sets it in the text
+// inputs in the modal.
+function setDetails() {
+	var usersID;
+	console.log(currentUID);
+	refUsers.orderByChild("uId").equalTo(currentUID).on('value', function(snapshot) {
+	    console.log(snapshot.val());
+	    snapshot.forEach(function(data) {
+	      	var details = data.val();
+	      	usersID = data.key;
+	      	document.getElementById("childID-input").innerHTML = usersID;
+	      	document.getElementById("editU-firstname").value = details.firstname;
+	    	document.getElementById("editU-lastname").value = details.lastname;
+	    	document.getElementById("editU-username").value = details.username;
+	    	document.getElementById("editU-password").value = details.password;
+
+	    });
+	})
+}
+
+// This function is triggered when clicked. This gets the data from the text inputs
+// in the modal. It then queries the database and then updates the fields of the 
+// specific child.
+function editUser() {
+	var firstname, lastname, username, password, userkey, user_ID;
+	userkey = document.getElementById("childID-input").innerHTML;
+	user_ID = document.getElementById("userUID-input").innerHTML;
+	u_firstname = document.getElementById("editU-firstname").value.toString();
+	u_lastname = document.getElementById("editU-lastname").value.toString();
+	u_username = document.getElementById("editU-username").value.toString();
+	u_password = document.getElementById("editU-password").value.toString();
 	
+	var query = refUsers.orderByChild("uId").equalTo(user_ID).once("child_added", function(snapshot) {
+	  snapshot.ref.update({ firstname: u_firstname });
+	  snapshot.ref.update({ lastname: u_lastname });
+	  snapshot.ref.update({ username: u_username });
+	  snapshot.ref.update({ password: u_password });
+	});
+
+	if(query != null){
+		if(!alert('Na-update girl!')){window.location.reload();}
+	}else{
+		alert("Wrong ka dae!!!");
+	}
+	
+
+}  
+
+// This function adds a new table row in the table and accepts a user ID,
+// its username, first name, and last name.
+function addTableRow(uID, username, firstname, lastname) {
+	var cell, tableRow, tableRef, cellCtr=0, rowCtr=0;
+
+	tableRef = document.getElementById("usersList");
+	tableRow = tableRef.insertRow(rowCtr);
+
 	//user ID
 	cell = tableRow.insertCell(cellCtr);
+	cell.id = "UID-table";
+	console.log(cell.id);
 	cell.innerHTML = uID;
 	cellCtr++;
 	//username
@@ -187,19 +460,36 @@
 	//options
 	cell = tableRow.insertCell(cellCtr);
 	cell.innerHTML = "<div class='btn-group' role='group'>" +
-  						"<button type='button' class='btn btn-warning' data-toggle='modal' data-target='#editUser-modal'><span class='glyphicon glyphicon-edit'></span></button>" +
-  						"<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#delUser-modal'><span class='glyphicon glyphicon-trash'></span></button>" +
+							"<button title='Edit User' type='button' class='btn' data-toggle='modal' data-target='#editUser-modal' onclick='getCurrentData(this)' style='background-color:#008c98;'><span class='glyphicon glyphicon-edit' style='color:#f3f3f3'></span></button>" +
+							"<button title='Delete User' type='button' class='btn' data-toggle='modal' data-target='#delUser-modal' style='background-color:#f3f3f3;'><span class='glyphicon glyphicon-trash' style='color:#008c98'></span></button>" +
 					"</div>";
 	cellCtr++
 
 	document.getElementById("usersList-body").appendChild(tableRow);
-  }
 
-  function errData(err){
-  	console.log('Error!');
-  	console.log(err);
-  }
+}
+
+// This function is made for the developers to know
+// if an error has occured while connecting to the database.
+function errData(err){
+	console.log('Error!');
+	console.log(err);
+}
 
 </script>	
-
 <script src="index.js"></script>
+<!-- <script type="text/javascript">
+	$('.count').each(function () {
+	    $(this).prop('Counter', 0).animate({
+	        +Counter: $(this).text()
+	    }, {
+	        duration: 4000,
+	        easing: 'swing',
+	        step: function (now) {
+	            $(this).text(Math.ceil(now));
+	        }
+	    });
+	});
+</script> -->
+</html>
+

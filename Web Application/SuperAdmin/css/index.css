@@ -39,6 +39,101 @@ body {
 	letter-spacing: 1px;
 }
 
+.adminheader-div {
+	margin-left: -20px;
+	margin-right: -20px;
+	margin-top: -10px;
+	background: url(img/admin-header-bg.jpg);
+	height: 150px;
+}
+
+.adminheader-img {
+	padding-left: 65%;
+}
+
+.adminheader-welcome-text {
+	font-family: Coolvetica;
+	color: #FFFF;
+	padding-top: 20px;
+	padding-left: 20px;
+	font-size: 200%;
+}
+
+.adminheader-email-text {
+	font-family: Coolvetica;
+	color: #008C98; 
+	font-size: 190%;
+	padding-left: 20px;
+	margin-top: -3%;
+}
+
+.adminheader-logout-icon {
+	padding-left: 20px;
+}
+
+.statistics-div {
+	padding-top: 30px;
+	margin-top: 10px;
+	padding: 10px;
+	border: 3px solid #008c98;
+	height: auto;
+	border-radius: 5px;
+}
+
+/**** USER STATISTICS ****/
+.user-icon-img {
+	padding-left: 35%;
+}
+.user-count-text {
+	margin-top: -20px;
+	padding-left: 45%;
+	font-size: 50px;
+	font-family: Coolvetica;	
+}
+.user-text {
+	margin-top: -30px;
+	padding-left: 25%;
+	font-size: 200%;
+	font-family: Coolvetica;
+	color: #636363;
+}
+
+/**** DISEASE STATISTICS ****/
+.disease-icon-img {
+	padding-left: 40%;
+}
+.disease-count-text {
+	padding-left: 50%;
+	margin-top: -20px;
+	font-size: 50px;
+	font-family: Coolvetica;
+}
+.disease-text {
+	margin-top: -30px;
+	padding-left: 38%;
+	font-size: 200%;
+	font-family: Coolvetica;
+	color: #636363;
+}
+
+/**** TREATMENTS STATISTICS ****/
+.treatments-icon-img {
+	padding-left: 40%;
+}
+.treatments-count-text {
+	padding-left: 45%;
+	margin-top: -15px;
+	font-size: 50px;
+	font-family: Coolvetica;
+}
+.treatments-text {
+	margin-top: -30px;
+	padding-left: 25%;
+	font-size: 200%;
+	font-family: Coolvetica;
+	color: #636363;
+}
+
 .textbox {
 	width: 100%;
 	overflow: hidden;
@@ -87,7 +182,7 @@ body {
 	padding: 20px;
 	background-image: url('img/white-bg.jpg');
 	background-size: cover;
-	height: 700px;
+	height: auto;
 	width: 100%;
 }
 
@@ -95,4 +190,33 @@ body {
 	margin-top: 10px;
 	padding-top: 10px;
 	width: auto;
+}
+
+.addU-uID-input {
+	width: 50px;
+	border: 2px solid #008c98;
+	background-color: #f3f3f3;
+	border-radius: 5px;
+}
+
+.addU-cID-input {
+	width: 250px;
+	border: 2px solid #008c98;
+	background-color: #f3f3f3;
+	border-radius: 5px;
+}
+
+.btn:hover {
+	color: #636363;
+	text-decoration: none;
+	-o-transition: all .3s;
+	-moz-transition: all .3s; 
+	-webkit-transition: all .3s; 
+	-ms-transition: all .3s; 
+	transition: all .3s;
+}
+
+.modal-icon {
+	height: 20px;
+	width: 20px;
 }
